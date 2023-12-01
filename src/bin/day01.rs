@@ -42,8 +42,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(|line| {
             let digits = line.chars().filter(|c| c.is_digit(10)).collect::<Vec<_>>();
 
-            let first_digit = digits.get(0)?;
-            let last_digit = digits.get(digits.len() - 1)?;
+            let first_digit = digits.first()?;
+            let last_digit = digits.last()?;
 
             Some(first_digit.to_digit(10)? * 10 + last_digit.to_digit(10)?)
         })
@@ -57,8 +57,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(|line| {
             let digits = parse_spelled_numbers(line);
 
-            let first_digit = digits.get(0)?;
-            let last_digit = digits.get(digits.len() - 1)?;
+            let first_digit = digits.first()?;
+            let last_digit = digits.last()?;
 
             Some(first_digit * 10 + last_digit)
         })
