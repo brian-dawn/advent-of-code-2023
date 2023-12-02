@@ -115,25 +115,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .iter()
         .filter_map(|line| parse_game(line))
         .filter(|game| {
-            let all_red_less_than = game.hands.iter().all(|hand| hand.red <= 12);
-            let all_green_less_than = game.hands.iter().all(|hand| hand.green <= 13);
-            let all_blue_less_than = game.hands.iter().all(|hand| hand.blue <= 14);
-            all_red_less_than && all_green_less_than && all_blue_less_than
+            game.hands
+                .iter()
+                .all(|hand| hand.red <= 12 && hand.green <= 13 && hand.blue <= 14)
         })
         .map(|game| game.id)
         .sum::<u32>();
 
     println!("Part 1: {}", part1);
 
+    let part2 = input
+        .iter()
+        .filter_map(|line| parse_game(line))
+        .map(|game| {
+            // Find the max of each red, green, blue
+            let max_red = game.hands.iter().map(|hand| hand.red).max().unwrap_or(0);
+            let max_green = game.hands.iter().map(|hand| hand.green).max().unwrap_or(0);
+            let max_blue = game.hands.iter().map(|hand| hand.blue).max().unwrap_or(0);
 
-    let part2 = input.iter().filter_map(|line| parse_game(line)).map(|game| {
-        // Find the max of each red, green, blue
-        let max_red = game.hands.iter().map(|hand| hand.red).max().unwrap_or(0);
-        let max_green = game.hands.iter().map(|hand| hand.green).max().unwrap_or(0);
-        let max_blue = game.hands.iter().map(|hand| hand.blue).max().unwrap_or(0);
-
-        max_red * max_green * max_blue
-    }).sum::<u32>();
+            max_red * max_green * max_blue
+        })
+        .sum::<u32>();
 
     println!("Part 2: {}", part2);
 
