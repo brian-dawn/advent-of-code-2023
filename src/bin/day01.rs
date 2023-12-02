@@ -35,7 +35,7 @@ fn parse_spelled_numbers(input: &str) -> Vec<u32> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let input = lib::read_data("day01")?;
+    let input = common::read_data("day01")?;
 
     let answer_1: u32 = input
         .iter()
