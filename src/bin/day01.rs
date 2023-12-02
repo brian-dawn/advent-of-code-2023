@@ -39,22 +39,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let answer_1: u32 = input
         .iter()
-        .map(|line| {
-            let digits = line.chars().filter(|c| c.is_digit(10)).collect::<Vec<_>>();
+        .filter_map(|line| {
+            let digits = line.chars().filter(|c| c.is_ascii_digit()).collect::<Vec<_>>();
 
             let first_digit = digits.first()?;
             let last_digit = digits.last()?;
 
             Some(first_digit.to_digit(10)? * 10 + last_digit.to_digit(10)?)
         })
-        .flatten()
         .sum();
 
     println!("Answer 1: {}", answer_1);
 
     let answer_2: u32 = input
         .iter()
-        .map(|line| {
+        .filter_map(|line| {
             let digits = parse_spelled_numbers(line);
 
             let first_digit = digits.first()?;
@@ -62,7 +61,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             Some(first_digit * 10 + last_digit)
         })
-        .flatten()
         .sum();
 
     println!("Answer 2: {}", answer_2);

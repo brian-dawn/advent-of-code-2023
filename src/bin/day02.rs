@@ -58,7 +58,7 @@ fn test_parse_hand() {
 /// Return a struct representing the game.
 fn parse_game(line: &str) -> Option<Game> {
     let id = line
-        .split(":")
+        .split(':')
         .next()?
         .split_whitespace()
         .nth(1)?
@@ -66,14 +66,13 @@ fn parse_game(line: &str) -> Option<Game> {
         .ok()?;
 
     let hands = line
-        .split(":")
+        .split(':')
         .nth(1)?
-        .split(";")
-        .map(|hand| {
+        .split(';')
+        .filter_map(|hand| {
             let hand = hand.trim();
             parse_hand(hand)
         })
-        .flatten()
         .collect::<Vec<_>>();
 
     Some(Game { id, hands })
