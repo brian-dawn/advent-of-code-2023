@@ -72,7 +72,7 @@ impl Schematic {
     }
 }
 
-type GearRatios = HashMap<(u32, u32), Vec<u32>>;
+type GearRatios = HashMap<(usize, usize), Vec<u32>>;
 
 fn walk(schematic: &Schematic) -> (u32, GearRatios) {
     let mut sum = 0;
@@ -108,7 +108,7 @@ fn walk(schematic: &Schematic) -> (u32, GearRatios) {
 
             // For each gear near this number insert it into the gear ratios hashmap.
             for (row, col) in gear_coordinates_for_num {
-                let gear_ratios_for_gear = gear_ratios.entry((row as u32, col as u32)).or_default();
+                let gear_ratios_for_gear = gear_ratios.entry((row, col)).or_default();
                 gear_ratios_for_gear.push(num);
             }
 
@@ -127,7 +127,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let (part1, gear_ratios) = walk(&schematic);
     println!("Part 1: {}", part1);
-
 
     // For each gear, if there's only two numbers then the ratio is the multiplication of those two numbers.
     let part2 = gear_ratios
