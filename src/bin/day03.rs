@@ -132,7 +132,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // For each gear, if there's only two numbers then the ratio is the multiplication of those two numbers.
     let part2 = gear_ratios
         .iter()
-        .filter_map(|(gear, numbers)| {
+        .filter_map(|(_gear, numbers)| {
             if numbers.len() == 2 {
                 Some(numbers[0] * numbers[1])
             } else {
