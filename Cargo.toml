@@ -8,3 +8,4 @@ name = "common"
 path = "src/common.rs"
 
 [dependencies]
+itertools = "0.12.0"
