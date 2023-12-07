@@ -270,8 +270,33 @@ fn test_compare_hands() {
 
     assert!(compare_hands(&hand1, &hand2) == std::cmp::Ordering::Greater);
 
+    let hand1 = vec![Card::A, Card::K, Card::Q, Card::J, Card::T];
+    let hand2 = vec![Card::A, Card::K, Card::Q, Card::J, Card::T];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Equal);
 
+    let hand1 = vec![Card::A, Card::K, Card::Q, Card::J, Card::Nine];
+    let hand2 = vec![Card::A, Card::K, Card::Q, Card::J, Card::T];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Less);
 
+    let hand1 = vec![Card::A, Card::J, Card::T, Card::Nine, Card::Eight];
+    let hand2 = vec![Card::A, Card::Q, Card::T, Card::Nine, Card::Eight];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Less);
+
+    let hand1 = vec![Card::A, Card::A, Card::Q, Card::J, Card::T];
+    let hand2 = vec![Card::Q, Card::Q, Card::J, Card::T, Card::Nine];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Greater);
+
+    let hand1 = vec![Card::Five, Card::Four, Card::Three, Card::Two, Card::A];
+    let hand2 = vec![Card::Two, Card::Three, Card::Four, Card::Five, Card::A];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Greater);
+
+    let hand1 = vec![Card::Two, Card::Three, Card::Four, Card::Five, Card::Six];
+    let hand2 = vec![Card::A, Card::K, Card::Q, Card::J, Card::T];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Less);
+
+    let hand1 = vec![Card::A, Card::A, Card::A, Card::A, Card::K];
+    let hand2 = vec![Card::K, Card::K, Card::K, Card::Q, Card::Q];
+    assert_eq!(compare_hands(&hand1, &hand2), std::cmp::Ordering::Greater);
 }
 
 fn parse_hand_with_bid(line: &str) -> Result<(u64, Vec<Card>), Box<dyn Error>> {
