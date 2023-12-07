@@ -259,6 +259,19 @@ fn test_compare_hands() {
     let hand2 = vec![Card::Q, Card::Q, Card::Q, Card::J, Card::A];
 
     assert!(compare_hands(&hand1, &hand2) == std::cmp::Ordering::Less);
+
+    let hand1 = vec![Card::J, Card::J, Card::J, Card::J, Card::Five];
+    let hand2 = vec![Card::J, Card::J, Card::J, Card::J, Card::Four];
+
+    assert!(compare_hands(&hand1, &hand2) == std::cmp::Ordering::Greater);
+
+    let hand1 = vec![Card::A, Card::A, Card::A, Card::A, Card::A];
+    let hand2 = vec![Card::J, Card::J, Card::J, Card::J, Card::J];
+
+    assert!(compare_hands(&hand1, &hand2) == std::cmp::Ordering::Greater);
+
+
+
 }
 
 fn parse_hand_with_bid(line: &str) -> Result<(u64, Vec<Card>), Box<dyn Error>> {
