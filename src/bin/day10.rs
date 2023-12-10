@@ -78,8 +78,6 @@ impl Map {
         None
     }
 
-
-    // use tree
     fn walk_loop(&self, start: (usize, usize)) -> Option<Vec<(usize, usize)>> {
         let mut to_visit = vec![(start, vec![start])];
 
@@ -150,6 +148,94 @@ impl Map {
 
         None
     }
+
+    fn flood_fill(&self, outer_path: &[(usize, usize)]) -> u64 {
+        // Find the centeroid by averaging all the coordinates
+        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        enum Flood {
+            Empty,
+            Flooded,
+            Blocked,
+        }
+
+        let width = self.width * 2;
+        let height = self.height * 2;
+
+        let mut flood = vec![Flood::Empty; width * height];
+
+        // Perform flood fill, note that "squeezing between pipes" is allowed.
+        // Therefor we will 2x the resolution.
+
+        // Fill in the gaps in the outer path.
+
+        for window in outer_path.windows(2) {
+            let (x1, y1) = window[0];
+            let (x2, y2) = window[1];
+
+            // fill in x1, y1 as well as the space between x1, y1 and x2, y2
+            let avg_x = (x1 * 2 + x2 * 2) / 2;
+            let avg_y = (y1 * 2 + y2 * 2) / 2;
+            flood[y1 * 2 * width + x1 * 2] = Flood::Blocked;
+            flood[avg_y * width + avg_x] = Flood::Blocked;
+        }
+
+        // Now we flood from the outside
+        let mut to_visit = vec![(0, 0)];
+        while !to_visit.is_empty() {
+            let Some((x, y)) = to_visit.pop() else {
+                continue;
+            };
+
+            let mut possibilities = HashSet::new();
+            possibilities.insert((x - 1, y));
+            possibilities.insert((x + 1, y));
+            possibilities.insert((x, y - 1));
+            possibilities.insert((x, y + 1));
+
+            for p in possibilities {
+                let (x, y) = p;
+
+                if x >= width || y >= height {
+                    continue;
+                }
+
+                if flood[y * width + x] != Flood::Empty {
+                    continue;
+                }
+
+                flood[y * width + x] = Flood::Flooded;
+                to_visit.push(p);
+            }
+        }
+
+        // Pretty print..
+        for y in 0..height {
+            for x in 0..width {
+                match flood[y * width + x] {
+                    Flood::Empty => print!("."),
+                    Flood::Flooded => print!("~"),
+                    Flood::Blocked => print!("#"),
+                }
+            }
+            println!();
+        }
+
+        let mut total = 0;
+        let original_path_set = outer_path.iter().cloned().collect::<HashSet<_>>();
+
+        for y in 0..height {
+            for x in 0..width {
+                if original_path_set.contains(&(x / 2, y / 2)) {
+                    continue;
+                }
+                if flood[y * width + x] == Flood::Empty {
+                    total += 1;
+                }
+            }
+        }
+
+        total / 4
+    }
 }
 
 #[test]
@@ -199,6 +285,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let part1 = path.len() / 2;
     println!("Part 1: {}", part1);
+
+    let part2 = map.flood_fill(&path);
+
+    println!("Part 2: {}", part2);
 
     Ok(())
 }
