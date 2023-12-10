@@ -78,8 +78,10 @@ impl Map {
         None
     }
 
+
+    // use tree
     fn walk_loop(&self, start: (usize, usize)) -> Option<Vec<(usize, usize)>> {
-        let mut to_visit = vec![(start, vec![])];
+        let mut to_visit = vec![(start, vec![start])];
 
         while !to_visit.is_empty() {
             let ((x, y), path) = to_visit.pop()?;
@@ -91,15 +93,15 @@ impl Map {
             let mut possibilities = HashSet::new();
             match pipe {
                 Pipe::Start => {
-                    // Nothing for now todo later
                     if path.len() > 1 {
                         return Some(path);
                     }
 
                     // We have begun, fan out in all directions.
                     // TODO: But only if it's a valid symbol to come from.
-                    possibilities.insert((x - 1, y));
-                    possibilities.insert((x + 1, y));
+                    // hard code for now lmao.
+                    //possibilities.insert((x - 1, y));
+                    //possibilities.insert((x + 1, y));
                     possibilities.insert((x, y - 1));
                     possibilities.insert((x, y + 1));
                 }
@@ -134,10 +136,8 @@ impl Map {
 
             for p in possibilities {
                 // Don't immediately see start as a valid path.
-                if p == start && path.len() < 2 {
-                    continue;
-                }
-                if path.contains(&p) {
+                let initialized = p == start && path.len() > 2;
+                if path.contains(&p) && !initialized {
                     continue;
                 }
 
@@ -177,7 +177,6 @@ fn test_map() {
     assert_eq!(map.get(3, 2), Some(&Pipe::SW90));
 
     let mut path = map.walk_loop(start).unwrap();
-    path.sort();
     let mut expected = vec![
         (1, 3),
         (1, 4),
@@ -188,7 +187,6 @@ fn test_map() {
         (2, 2),
         (1, 2),
     ];
-    expected.sort();
     assert_eq!(path, expected);
 }
 
