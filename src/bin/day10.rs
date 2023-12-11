@@ -150,7 +150,6 @@ impl Map {
     }
 
     fn flood_fill(&self, outer_path: &[(usize, usize)]) -> u64 {
-        // Find the centeroid by averaging all the coordinates
         #[derive(Debug, Clone, Copy, PartialEq, Eq)]
         enum Flood {
             Empty,
@@ -179,7 +178,7 @@ impl Map {
             flood[avg_y * width + avg_x] = Flood::Blocked;
         }
 
-        // Now we flood from the outside
+        // Now we flood from the outside we know 0, 0 can't be inside the path
         let mut to_visit = vec![(0, 0)];
         while !to_visit.is_empty() {
             let Some((x, y)) = to_visit.pop() else {
