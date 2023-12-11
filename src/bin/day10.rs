@@ -251,6 +251,7 @@ fn test_map() {
 
     let mut path = map.walk_loop(start).unwrap();
     let mut expected = vec![
+        (1, 2),
         (1, 3),
         (1, 4),
         (2, 4),
