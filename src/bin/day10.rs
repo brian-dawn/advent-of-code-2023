@@ -207,18 +207,6 @@ impl Map {
             }
         }
 
-        // Pretty print..
-        for y in 0..height {
-            for x in 0..width {
-                match flood[y * width + x] {
-                    Flood::Empty => print!("."),
-                    Flood::Flooded => print!("~"),
-                    Flood::Blocked => print!("#"),
-                }
-            }
-            println!();
-        }
-
         let mut total = 0;
         let original_path_set = outer_path.iter().cloned().collect::<HashSet<_>>();
 
