@@ -30,7 +30,6 @@ fn manhattan_distance(
     expansion_cols: &HashSet<&usize>,
     expansion_amount: usize,
 ) -> usize {
-
     let mut distance = 0;
 
     // If we cross an empty row or column we expand the distance by 2 instead of 1 as we walk.
@@ -74,7 +73,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let galaxies = from_lines(input);
 
-
     let max_y = galaxies.iter().map(|g| g.y).max().ok_or("No galaxies")?;
     let max_x = galaxies.iter().map(|g| g.x).max().ok_or("No galaxies")?;
 
@@ -86,7 +84,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let empty_rows = y_set.difference(&galaxy_ys).collect::<HashSet<_>>();
     let empty_cols = x_set.difference(&galaxy_xs).collect::<HashSet<_>>();
-
 
     // Now for each pair of galaxies find the manhattan distance, if we cross an empty row or column we expand the distance by 1.
     let part1 = galaxies
