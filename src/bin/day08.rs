@@ -60,7 +60,7 @@ fn walk2(guide: &str, directions: &[Direction]) -> Option<u64> {
     let mut walkers = directions
         .keys()
         .filter(|k| k.ends_with('A'))
-        .map(|k| Some(k))
+        .map(Some)
         .collect_vec();
 
     let mut path_lengths = vec![];

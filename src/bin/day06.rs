@@ -85,11 +85,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         .iter()
         .zip(races.distance.iter())
         .map(|(t, d)| possible_ways_to_win(*t, *d))
-        .fold(1, |a, b| a * b);
+        .product::<usize>();
 
     println!("Part 1: {}", part1);
 
-    let updated_input = input.replace(" ", "").replace(":", " ");
+    let updated_input = input.replace(' ', "").replace(':', " ");
     let race = updated_input.parse::<Races>()?;
     let part2 = possible_ways_to_win(race.time[0], race.distance[0]);
 

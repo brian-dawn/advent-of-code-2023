@@ -249,8 +249,8 @@ fn test_map() {
     assert_eq!(map.get(2, 2), Some(&Pipe::Horizontal));
     assert_eq!(map.get(3, 2), Some(&Pipe::SW90));
 
-    let mut path = map.walk_loop(start).unwrap();
-    let mut expected = vec![
+    let path = map.walk_loop(start).unwrap();
+    let expected = vec![
         (1, 2),
         (1, 3),
         (1, 4),

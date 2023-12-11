@@ -8,7 +8,6 @@ fn parse_paragraph(paragraph: &str) -> Vec<(u64, u64, u64)> {
     lines.next();
 
     lines
-        .into_iter()
         .filter_map(|line| {
             let mut parts = line.split_whitespace();
             let seed = parts.next()?.parse::<u64>().ok()?;
@@ -21,7 +20,6 @@ fn parse_paragraph(paragraph: &str) -> Vec<(u64, u64, u64)> {
 
 fn parse_seeds(seeds: &str) -> Vec<u64> {
     seeds
-        .trim()
         .split_whitespace()
         .filter_map(|s| s.parse::<u64>().ok())
         .collect()
@@ -58,7 +56,7 @@ fn mapping(num: u64, to: &[(u64, u64, u64)]) -> u64 {
         }
     }
 
-    return num;
+    num
 }
 
 #[test]

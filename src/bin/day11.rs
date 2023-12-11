@@ -89,7 +89,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let part1 = galaxies
         .iter()
         .combinations(2)
-        .map(|g| manhattan_distance(&g[0], &g[1], &empty_rows, &empty_cols, 2))
+        .map(|g| manhattan_distance(g[0], g[1], &empty_rows, &empty_cols, 2))
         .sum::<usize>();
 
     println!("Part 1: {}", part1);
@@ -98,7 +98,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let part2 = galaxies
         .iter()
         .combinations(2)
-        .map(|g| manhattan_distance(&g[0], &g[1], &empty_rows, &empty_cols, 1_000_000))
+        .map(|g| manhattan_distance(g[0], g[1], &empty_rows, &empty_cols, 1_000_000))
         .sum::<usize>();
 
     println!("Part 2: {}", part2);
